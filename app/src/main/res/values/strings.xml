@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">BusRaj</string>
+
+    <string name="src">Source</string>
+    <string name="dest">Destination</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="Route">Route Stands</string>
+
+    <string name="title_activity_source">From</string>
+    <string name="title_activity_destination">TO</string>
+    <string name="title_activity_search">Route Info </string>
+</resources>
