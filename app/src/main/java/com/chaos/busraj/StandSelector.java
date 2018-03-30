@@ -45,14 +45,6 @@ public class StandSelector extends AppCompatActivity {
         standAdapter = new StandAdapter(this, standNames);
         ListView listView = (ListView) findViewById(R.id.src);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //textView.setText(standAdapter.getStandName());
-                Log.v("StandSelector",standAdapter.getStandName());
-            }
-        });
-
         listView.setAdapter(standAdapter);
 
         final AutoCompleteTextView textView = (AutoCompleteTextView)
@@ -60,6 +52,7 @@ public class StandSelector extends AppCompatActivity {
         textView.setThreshold(1);
         textView.setDropDownHeight(0);
         textView.setAdapter(standAdapter);
+
 
         standSelectButton = (Button) findViewById(R.id.standSelectButton);
         standSelectButton.setOnClickListener(new View.OnClickListener() {
@@ -69,11 +62,11 @@ public class StandSelector extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.putExtra("Stand", standName);
                 if(null == standName) {
-                    setResult(RESULT_CANCELED,intent);
+                    Toast.makeText(StandSelector.this,"Not a valid input",Toast.LENGTH_SHORT).show();
                 } else {
                     setResult(RESULT_OK,intent);
+                    finish();
                 }
-                finish();
             }
         });
     }

@@ -34,7 +34,6 @@ public class StandAdapter extends ArrayAdapter<String> {
             listItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
 
         }
-
         stand = getItem(position);
         textView = (AutoCompleteTextView) listItemView.getRootView().findViewById(R.id.standSearch);
         standName = (RadioButton) listItemView.findViewById(R.id.stand);
@@ -46,6 +45,7 @@ public class StandAdapter extends ArrayAdapter<String> {
             public void onClick(View view) {
                 selectedPosition = (Integer) view.getTag();
                 notifyDataSetChanged();
+                if(textView != null)
                 textView.setText(getItem(selectedPosition));
                 selectedPosition = 0;
             }
