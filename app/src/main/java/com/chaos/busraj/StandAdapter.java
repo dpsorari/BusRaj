@@ -1,12 +1,14 @@
 package com.chaos.busraj;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,13 +20,16 @@ import java.util.ArrayList;
  */
 public class StandAdapter extends ArrayAdapter<String> {
 
+    AutoCompleteTextView textView;
+
     public StandAdapter(Context context, ArrayList<String> resource) {
         super(context, 0, resource);
     }
 
     int selectedPosition = 0;
     String stand;
-    AutoCompleteTextView textView;
+    Button standSelectButton;
+
     RadioButton standName;
 
     @Override
@@ -34,8 +39,8 @@ public class StandAdapter extends ArrayAdapter<String> {
             listItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
 
         }
+
         stand = getItem(position);
-        textView = (AutoCompleteTextView) listItemView.getRootView().findViewById(R.id.standSearch);
         standName = (RadioButton) listItemView.findViewById(R.id.stand);
         standName.setChecked(position == selectedPosition);
         standName.setText(stand);
@@ -43,9 +48,10 @@ public class StandAdapter extends ArrayAdapter<String> {
         standName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 selectedPosition = (Integer) view.getTag();
+                textView = view.getRootView().findViewById(R.id.standSearch);
                 notifyDataSetChanged();
-                if(textView != null)
                 textView.setText(getItem(selectedPosition));
                 selectedPosition = 0;
             }
