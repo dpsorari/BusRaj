@@ -1,8 +1,11 @@
 package com.chaos.busraj;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -44,7 +47,6 @@ public class StandSelector extends AppCompatActivity {
 
         standAdapter = new StandAdapter(this, standNames);
         ListView listView = (ListView) findViewById(R.id.src);
-
         listView.setAdapter(standAdapter);
 
         final AutoCompleteTextView textView = (AutoCompleteTextView)
@@ -52,7 +54,6 @@ public class StandSelector extends AppCompatActivity {
         textView.setThreshold(1);
         textView.setDropDownHeight(0);
         textView.setAdapter(standAdapter);
-
 
         standSelectButton = (Button) findViewById(R.id.standSelectButton);
         standSelectButton.setOnClickListener(new View.OnClickListener() {
