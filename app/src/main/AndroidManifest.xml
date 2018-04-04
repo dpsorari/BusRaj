@@ -17,19 +17,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".source"
-            android:label="@string/title_activity_source" >
-        </activity>
-        <activity
-            android:name=".destination"
-            android:label="@string/title_activity_destination" >
-        </activity>
-        <activity
-            android:name=".search"
+            android:name=".RouteDetails.search"
             android:label="@string/title_activity_search" >
         </activity>
         <activity
-            android:name=".StandSelector"
+            android:name=".BusInfo.StandSelector"
             android:label="@string/title_activity_search" >
         </activity>
     </application>
