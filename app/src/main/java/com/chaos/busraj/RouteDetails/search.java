@@ -1,9 +1,11 @@
-package com.chaos.busraj;
+package com.chaos.busraj.RouteDetails;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.chaos.busraj.R;
 
 public class search extends AppCompatActivity {
 

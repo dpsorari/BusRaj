@@ -3,12 +3,12 @@ package com.chaos.busraj;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
+
+import com.chaos.busraj.BusInfo.StandSelector;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         search. setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent path = new Intent(MainActivity.this, search.class);
+                Intent path = new Intent(MainActivity.this, com.chaos.busraj.RouteDetails.search.class);
                 startActivity(path);
             }
         });
