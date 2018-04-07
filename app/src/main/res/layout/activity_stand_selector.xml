@@ -12,7 +12,7 @@
 
         />
     <ListView
-        android:id="@+id/src"
+        android:id="@+id/source"
         android:layout_below="@id/standSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></ListView>

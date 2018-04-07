@@ -42,7 +42,7 @@ public class StandSelector extends AppCompatActivity {
 
 
         standAdapter = new StandAdapter(this, standNames);
-        ListView listView = (ListView) findViewById(R.id.src);
+        ListView listView = (ListView) findViewById(R.id.source);
         listView.setAdapter(standAdapter);
 
         final AutoCompleteTextView textView = (AutoCompleteTextView)

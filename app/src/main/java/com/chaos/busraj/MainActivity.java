@@ -3,49 +3,61 @@ package com.chaos.busraj;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chaos.busraj.BusInfo.StandSelector;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int SOURCE_CODE = 1;
+    private static final int DESTINATION_CODE = 2;
 
-    TextView src, dest;
+    TextView source, destination, search;
+    String sourceValue, destinationValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        src= (TextView) findViewById(R.id.src);
-        src.setOnClickListener(new View.OnClickListener() {
+        source = (TextView) findViewById(R.id.source);
+        source.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent showroute = new Intent(MainActivity.this, StandSelector.class);
-                startActivityForResult(showroute,1);
+                Intent selectSource = new Intent(MainActivity.this, StandSelector.class);
+                startActivityForResult(selectSource, SOURCE_CODE);
             }
         });
 
-       dest = (TextView) findViewById(R.id.dest);
-        dest.setOnClickListener(new View.OnClickListener() {
+        destination = (TextView) findViewById(R.id.destination);
+        destination.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent showroute = new Intent(MainActivity.this , StandSelector.class );
-                startActivityForResult(showroute,2);
+                Intent selectDestination = new Intent(MainActivity.this, StandSelector.class);
+                startActivityForResult(selectDestination, DESTINATION_CODE);
             }
         });
 
 
-        TextView search = (TextView) findViewById(R.id.search);
-        search. setOnClickListener(new View.OnClickListener() {
+        search = (TextView) findViewById(R.id.search);
+        search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent path = new Intent(MainActivity.this, com.chaos.busraj.RouteDetails.search.class);
-                startActivity(path);
+
+                if (TextUtils.isEmpty(sourceValue) || TextUtils.isEmpty(destinationValue)) {
+                    Toast.makeText(MainActivity.this, "Please choose source or destination", Toast.LENGTH_LONG).show();
+                } else {
+                    Intent showRoute = new Intent(MainActivity.this, com.chaos.busraj.RouteDetails.search.class);
+                    showRoute.putExtra(getString(R.string.source), sourceValue);
+                    showRoute.putExtra(getString(R.string.destination), destinationValue);
+                    startActivity(showRoute);
+                }
             }
         });
 
@@ -53,15 +65,18 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
+        if (SOURCE_CODE == requestCode) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-                src.setText(data.getStringExtra("Stand"));
+                sourceValue = data.getStringExtra("Stand");
+                source.setText(sourceValue);
             }
-        } else {
+        } else if(DESTINATION_CODE == requestCode) {
+            // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-                dest.setText(data.getStringExtra("Stand"));
-                }
+                destinationValue = data.getStringExtra("Stand");
+                destination.setText(destinationValue);
+            }
         }
 
     }
@@ -87,7 +102,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 
 }
