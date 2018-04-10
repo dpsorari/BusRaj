@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">BusRaj</string>
 
-    <string name="src">Source</string>
-    <string name="dest">Destination</string>
+    <string name="source">Source</string>
+    <string name="destination">Destination</string>
 
     <string name="action_settings">Settings</string>
 
