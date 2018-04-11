@@ -2,6 +2,7 @@ package com.chaos.busraj.RouteDetails;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -23,11 +24,13 @@ public class BusRouteSearcher extends AppCompatActivity{
     String sourceValue, destinationValue;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@NonNull Bundle savedInstanceState) {
+        savedInstanceState = new Bundle();
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.bus_route_searcher);
 
-        source = (TextView) findViewById(R.id.source);
+        source = findViewById(R.id.source);
+
         source.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

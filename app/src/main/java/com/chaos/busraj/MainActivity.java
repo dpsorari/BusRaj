@@ -1,107 +1,107 @@
 package com.chaos.busraj;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.chaos.busraj.BusInfo.StandSelector;
+import com.chaos.busraj.RouteDetails.BusRouteSearcher;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int SOURCE_CODE = 1;
-    private static final int DESTINATION_CODE = 2;
+    //buttons reference for intercity and intracity, imageButton
+    private Button intercityButton, intracityButton;
+    private ImageButton nextButton;
 
-    TextView source, destination, search;
-    String sourceValue, destinationValue;
+    //textView reference in main activity
+    private TextView cityInfo;
+
+    //text holding city selected
+    private String cityVal = null;
+
+    //codes for city or area
+    public static final int interCityCode = 1;
+    public static final int intraCityCode = 2;
+
+    //city code to be identifiable to next activity
+    private static final int CITY_CODE = 0;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        source = (TextView) findViewById(R.id.source);
-        source.setOnClickListener(new View.OnClickListener() {
+        intercityButton = (Button)findViewById(R.id.intercity);
+        intracityButton = (Button)findViewById(R.id.intracity);
+
+        cityInfo = (TextView)findViewById(R.id.cityInfo);
+        nextButton = (ImageButton)findViewById(R.id.nextButton);
+
+        //set listeners
+        intercityButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent selectSource = new Intent(MainActivity.this, StandSelector.class);
-                startActivityForResult(selectSource, SOURCE_CODE);
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,BusRouteSearcher.class);
+                intent.putExtra("code_type",interCityCode);
+                startActivity(intent);
             }
         });
 
-        destination = (TextView) findViewById(R.id.destination);
-        destination.setOnClickListener(new View.OnClickListener() {
+        intracityButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent selectDestination = new Intent(MainActivity.this, StandSelector.class);
-                startActivityForResult(selectDestination, DESTINATION_CODE);
+            public void onClick(View view) {
+                LinearLayout linearLayout = (LinearLayout)cityInfo.getParent();
+                linearLayout.setVisibility(View.VISIBLE);
             }
         });
 
-
-        search = (TextView) findViewById(R.id.search);
-        search.setOnClickListener(new View.OnClickListener() {
+        //imageButton listener to redirect to next activity
+        nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
 
-                if (TextUtils.isEmpty(sourceValue) || TextUtils.isEmpty(destinationValue)) {
-                    Toast.makeText(MainActivity.this, "Please choose source or destination", Toast.LENGTH_LONG).show();
+                //check if text is set and go to next page if true
+                if(!TextUtils.isEmpty(cityVal)) {
+                    Intent intent = new Intent(MainActivity.this,BusRouteSearcher.class);
+                    intent.putExtra("code_type",intraCityCode);
+                    intent.putExtra("cityName" , cityVal);
+
+                    startActivity(intent);
                 } else {
-                    Intent showRoute = new Intent(MainActivity.this, com.chaos.busraj.RouteDetails.search.class);
-                    showRoute.putExtra(getString(R.string.source), sourceValue);
-                    showRoute.putExtra(getString(R.string.destination), destinationValue);
-                    startActivity(showRoute);
+                    Toast.makeText(MainActivity.this,"Please choose city" , Toast.LENGTH_SHORT)
+                            .show();
                 }
             }
         });
 
+        cityInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent selectSource = new Intent(MainActivity.this, StandSelector.class);
+                startActivityForResult(selectSource, CITY_CODE);
+            }
+        });
+
     }
 
+
+    //get the result from standSelector to set textView
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (SOURCE_CODE == requestCode) {
+        if (CITY_CODE == requestCode) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
-                sourceValue = data.getStringExtra("Stand");
-                source.setText(sourceValue);
-            }
-        } else if(DESTINATION_CODE == requestCode) {
-            // Make sure the request was successful
-            if (resultCode == RESULT_OK) {
-                destinationValue = data.getStringExtra("Stand");
-                destination.setText(destinationValue);
+                cityVal = data.getStringExtra("optionName");
+                cityInfo.setText(cityVal);
             }
         }
-
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
 }

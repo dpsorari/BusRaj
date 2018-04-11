@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.chaos.busraj.DataFetch.QueryFetch;
 import com.chaos.busraj.R;
 
 import java.util.ArrayList;
@@ -30,16 +31,7 @@ public class StandSelector extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stand_selector);
 
-        ArrayList<String> standNames = new ArrayList<String>();
-
-        standNames.add("MI ROAD");
-        standNames.add("MNIT");
-        standNames.add("GOLCHA");
-        standNames.add("TRITON");
-        standNames.add("TONK PHATAK");
-        standNames.add("BRAHMAPURI");
-
-
+        ArrayList<String> standNames = QueryFetch.getAllStops("Jaipur");
 
         standAdapter = new StandAdapter(this, standNames);
         ListView listView = (ListView) findViewById(R.id.source);
