@@ -16,19 +16,20 @@ import java.util.ArrayList;
 /**
  * Created by deepak on 20/3/18.
  */
-public class StandAdapter extends ArrayAdapter<String> {
+public class OptionAdapter extends ArrayAdapter<String> {
 
+    //Autocomplete text view to search option in the given list
     AutoCompleteTextView textView;
+    //Used to specify the selected option in the given list
+    int selectedPosition = 0;
+    //Used to store optionValue
+    String option;
+    //Radio button as a option in UI
+    RadioButton optionName;
 
-    public StandAdapter(Context context, ArrayList<String> resource) {
+    public OptionAdapter(Context context, ArrayList<String> resource) {
         super(context, 0, resource);
     }
-
-    int selectedPosition = 0;
-    String stand;
-    Button standSelectButton;
-
-    RadioButton standName;
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -38,17 +39,19 @@ public class StandAdapter extends ArrayAdapter<String> {
 
         }
 
-        stand = getItem(position);
-        standName = (RadioButton) listItemView.findViewById(R.id.stand);
-        standName.setChecked(position == selectedPosition);
-        standName.setText(stand);
-        standName.setTag(position);
-        standName.setOnClickListener(new View.OnClickListener() {
+        option = getItem(position);
+        optionName = (RadioButton) listItemView.findViewById(R.id.stand);
+        optionName.setChecked(position == selectedPosition);
+        optionName.setText(option);
+        optionName.setTag(position);
+
+        //set listener on every option view in the list
+        optionName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 selectedPosition = (Integer) view.getTag();
-                textView = view.getRootView().findViewById(R.id.standSearch);
+                textView = view.getRootView().findViewById(R.id.optionSearch);
                 notifyDataSetChanged();
                 textView.setText(getItem(selectedPosition));
                 selectedPosition = 0;
@@ -58,7 +61,8 @@ public class StandAdapter extends ArrayAdapter<String> {
         return listItemView;
     }
 
-    public String getStandName() {
+    //Used to get selected option name in the given list
+    public String getOptionName() {
         if (0 == getCount()) {
             return null;
         } else {

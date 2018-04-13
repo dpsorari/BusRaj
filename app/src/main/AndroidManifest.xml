@@ -29,7 +29,7 @@
         </activity>
 
         <activity
-            android:name=".BusInfo.StandSelector"
+            android:name=".BusInfo.OptionSelector"
             android:label="SelectStand" >
         </activity>
     </application>

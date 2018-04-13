@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -12,8 +13,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.chaos.busraj.BusInfo.StandSelector;
+import com.chaos.busraj.BusInfo.OptionSelector;
 import com.chaos.busraj.RouteDetails.BusRouteSearcher;
+
+import static com.chaos.busraj.Constants.Constants.CITY_TEXT_VIEW_CODE;
+import static com.chaos.busraj.Constants.Constants.INTER_CITY_CODE;
+import static com.chaos.busraj.Constants.Constants.INTRA_CITY_CODE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,13 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
     //text holding city selected
     private String cityVal = null;
-
-    //codes for city or area
-    public static final int interCityCode = 1;
-    public static final int intraCityCode = 2;
-
-    //city code to be identifiable to next activity
-    private static final int CITY_CODE = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this,BusRouteSearcher.class);
-                intent.putExtra("code_type",interCityCode);
+                intent.putExtra("activityCode",INTER_CITY_CODE+"");
                 startActivity(intent);
             }
         });
@@ -71,9 +69,8 @@ public class MainActivity extends AppCompatActivity {
                 //check if text is set and go to next page if true
                 if(!TextUtils.isEmpty(cityVal)) {
                     Intent intent = new Intent(MainActivity.this,BusRouteSearcher.class);
-                    intent.putExtra("code_type",intraCityCode);
+                    intent.putExtra("activityCode",INTRA_CITY_CODE+"");
                     intent.putExtra("cityName" , cityVal);
-
                     startActivity(intent);
                 } else {
                     Toast.makeText(MainActivity.this,"Please choose city" , Toast.LENGTH_SHORT)
@@ -85,8 +82,9 @@ public class MainActivity extends AppCompatActivity {
         cityInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent selectSource = new Intent(MainActivity.this, StandSelector.class);
-                startActivityForResult(selectSource, CITY_CODE);
+                Intent intent = new Intent(MainActivity.this, OptionSelector.class);
+                intent.putExtra("activityCode",CITY_TEXT_VIEW_CODE+"");
+                startActivityForResult(intent, CITY_TEXT_VIEW_CODE);
             }
         });
 
@@ -96,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
     //get the result from standSelector to set textView
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (CITY_CODE == requestCode) {
+        if (CITY_TEXT_VIEW_CODE == requestCode) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
                 cityVal = data.getStringExtra("optionName");

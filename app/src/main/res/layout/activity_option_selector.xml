@@ -6,22 +6,26 @@
     <AutoCompleteTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/standSearch"
+        android:id="@+id/optionSearch"
         android:layout_alignParentTop="true"
         android:hint="search"
 
         />
     <ListView
-        android:id="@+id/source"
-        android:layout_below="@id/standSearch"
+        android:id="@+id/options"
+        android:layout_below="@id/optionSearch"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ListView>
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/optionSelectButton"
+        ></ListView>
 
     <Button
-        android:id="@+id/standSelectButton"
+        android:id="@+id/optionSelectButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="OK"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        />
 </RelativeLayout>
